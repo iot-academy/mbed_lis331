@@ -88,13 +88,8 @@ public:
 
   
     
-    /**
-     * Get the current power mode
-     *
-     * @return 
-     */
     
-    //char getPowerMode(void);
+   
 
     
     
@@ -119,10 +114,19 @@ public:
      *   Low-power |          10           |               --             | LOW_POWER_10HZ
      */
     
-    //void setPowerMode(char powermode);
+    void setPowerMode(char power_mode);
+  
+   
+   
+     /**
+     * Get the current power mode
+     *
+     * @return 
+     */
+    char getPowerMode(void);
 
     
-    char getInterruptConfiguration(void);
+   char getInterruptConfiguration(void);
 
     /**
      * Set the interrupt configuration.
@@ -200,80 +204,7 @@ public:
      */
     int getAccelZ(void);
 
-    /**
-     * Get the power management configuration.
-     *
-     * See the datasheet for register contents details.
-     *
-     *     7        6        5         4
-     * +---------+-------+---------+---------+
-     * | H_RESET | SLEEP | STBY_XG | STBY_YG |
-     * +---------+-------+---------+---------+
-     *
-     *      3          2         1          0
-     * +---------+----------+----------+----------+
-     * | STBY_ZG | CLK_SEL2 | CLK_SEL1 | CLK_SEL0 |
-     * +---------+----------+----------+----------+
-     *
-     * H_RESET Reset device and internal registers to the power-up-default settings.
-     * SLEEP Enable low power sleep mode.
-     * STBY_XG Put gyro X in standby mode (1=standby, 0=normal).
-     * STBY_YG Put gyro Y in standby mode (1=standby, 0=normal).
-     * STBY_ZG Put gyro Z in standby mode (1=standby, 0=normal).
-     * CLK_SEL Select device clock source:
-     *
-     * CLK_SEL | Clock Source
-     * --------+--------------
-     *    0      Internal oscillator
-     *    1      PLL with X Gyro reference
-     *    2      PLL with Y Gyro reference
-     *    3      PLL with Z Gyro reference
-     *    4      PLL with external 32.768kHz reference
-     *    5      PLL with external 19.2MHz reference
-     *    6      Reserved
-     *    7      Reserved
-     *
-     * @return The contents of the PWR_MGM register.
-     */
-   // char getPowerManagement(void);
-
-    /**
-     * Set power management configuration.
-     *
-     * See the datasheet for configuration byte details
-     *
-     *      7        6        5         4
-     * +---------+-------+---------+---------+
-     * | H_RESET | SLEEP | STBY_XG | STBY_YG |
-     * +---------+-------+---------+---------+
-     *
-     *      3          2         1          0
-     * +---------+----------+----------+----------+
-     * | STBY_ZG | CLK_SEL2 | CLK_SEL1 | CLK_SEL0 |
-     * +---------+----------+----------+----------+
-     *
-     * H_RESET Reset device and internal registers to the power-up-default settings.
-     * SLEEP Enable low power sleep mode.
-     * STBY_XG Put gyro X in standby mode (1=standby, 0=normal).
-     * STBY_YG Put gyro Y in standby mode (1=standby, 0=normal).
-     * STBY_ZG Put gyro Z in standby mode (1=standby, 0=normal).
-     * CLK_SEL Select device clock source:
-     *
-     * CLK_SEL | Clock Source
-     * --------+--------------
-     *    0      Internal oscillator
-     *    1      PLL with X Gyro reference
-     *    2      PLL with Y Gyro reference
-     *    3      PLL with Z Gyro reference
-     *    4      PLL with external 32.768kHz reference
-     *    5      PLL with external 19.2MHz reference
-     *    6      Reserved
-     *    7      Reserved
-     *
-     * @param config The configuration byte to write to the PWR_MGM register.
-     */
-   // void setPowerManagement(char config);
-
+   
 private:
 
     I2C i2c_;
