@@ -27,11 +27,20 @@ LIS331::LIS331(PinName sda, PinName scl) : i2c_(sda, scl) {
     //Power Up Device, Set Output data rate, Enable All 3 Axis
     //See datasheet for details.
     char tx[2];
+    //char tx2[2];
+    //char rx[1];
     tx[0] = CTRL_REG_1;
     //CTRL_REG_1 [00111111] / [0x3F] to power up, set output rate to 1000Hz, and enable all 3 axis.
     tx[1] = 0x3F;
-    
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    
+    
+    // Set Big endian bit
+    //tx2[0] = CTRL_REG_4;
+    //i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 1);   // Request control reg 4
+    //i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 1);        //Read control reg 4
+    //tx2[1] = rx[0] | 1<<7;                                         // Set bit 7
+    //i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 2);
     
 }
 
@@ -116,7 +125,7 @@ int LIS331::getAccelX(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
+    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
     return output;
 
@@ -131,7 +140,7 @@ int LIS331::getAccelY(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
+    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
     return output;
 
@@ -146,7 +155,7 @@ int LIS331::getAccelZ(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
+    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
     return output;
 }

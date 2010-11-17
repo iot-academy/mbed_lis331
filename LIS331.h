@@ -171,13 +171,6 @@ public:
 
 
     /**
-     * Get the temperature of the device.
-     *
-     * @return The temperature in degrees celsius.
-     */
-    //float getTemperature(void);
-
-    /**
      * Get the output for the x-axis gyroscope.
      *
      * Typical sensitivity is 14.375 LSB/(degrees/sec).
