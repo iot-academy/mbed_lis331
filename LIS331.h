@@ -28,7 +28,7 @@
 //-----------
 // Registers
 //-----------
-#define WHO_AM_I_REG    0x0F
+#define WHO_AM_I_REG_LIS331    0x0F
 #define ACCEL_XOUT_H_REG 0x29
 #define ACCEL_XOUT_L_REG 0x28
 #define ACCEL_YOUT_H_REG 0x2B

@@ -47,7 +47,7 @@ LIS331::LIS331(PinName sda, PinName scl) : i2c_(sda, scl) {
 char LIS331::getWhoAmI(void){
 
     //WhoAmI Register address.
-    char tx = WHO_AM_I_REG;
+    char tx = WHO_AM_I_REG_LIS331;
     char rx;
     
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 1);
