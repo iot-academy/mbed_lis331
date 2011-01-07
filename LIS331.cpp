@@ -4,12 +4,12 @@
  *
  * @section DESCRIPTION
  *
- * LIS331 triple axis, digital interface, accelerometer.
+ * LIS331DLH triple axis, digital interface, accelerometer.
  * Based off Aaron Berk's ITG3200 Gyro Library 
  *
  * Datasheet:
  *
- * http://www.st.com/stonline/products/literature/ds/13951.pdf
+ * http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00213470.pdf
  */
 
 /**
@@ -33,14 +33,6 @@ LIS331::LIS331(PinName sda, PinName scl) : i2c_(sda, scl) {
     //CTRL_REG_1 [00111111] / [0x3F] to power up, set output rate to 1000Hz, and enable all 3 axis.
     tx[1] = 0x3F;
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
-    
-    
-    // Set Big endian bit
-    //tx2[0] = CTRL_REG_4;
-    //i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 1);   // Request control reg 4
-    //i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 1);        //Read control reg 4
-    //tx2[1] = rx[0] | 1<<7;                                         // Set bit 7
-    //i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 2);
     
 }
 
@@ -100,6 +92,37 @@ char LIS331::getInterruptConfiguration(void){
 
 }
 
+
+void LIS331:setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
+
+    char tx[2];
+    tx[0] = CTRL_REG_4;
+    tx[1] = 0x30;
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    
+}
+
+void LIS331:setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4!
+
+    char tx[2];
+    tx[0] = CTRL_REG_4;
+    tx[1] = 0x10;
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    
+}
+    
+
+void LIS331:setFullScaleRange2g(void){  // Does not preserve rest of CTRL_REG_4!
+
+    char tx[2];
+    tx[0] = CTRL_REG_4;
+    tx[1] = 0x00;
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    
+}
 
 
 char LIS331::getAccelStatus(void){
