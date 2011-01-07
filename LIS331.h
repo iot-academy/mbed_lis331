@@ -164,6 +164,13 @@ public:
      * @return 
      *
      */
+     
+     
+     
+    void setFullScaleRange8g(void);
+    void setFullScaleRange4g(void);
+    void setFullScaleRange2g(void);
+     
             
     char getAccelStatus(void);
 

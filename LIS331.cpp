@@ -93,34 +93,34 @@ char LIS331::getInterruptConfiguration(void){
 }
 
 
-void LIS331:setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
+void LIS331::setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
 
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x30;
         
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
     
 }
 
-void LIS331:setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4!
+void LIS331::setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4!
 
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x10;
         
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
     
 }
     
 
-void LIS331:setFullScaleRange2g(void){  // Does not preserve rest of CTRL_REG_4!
+void LIS331::setFullScaleRange2g(void){  // Does not preserve rest of CTRL_REG_4!
 
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x00;
         
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 2);
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
     
 }
 
