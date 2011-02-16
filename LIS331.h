@@ -202,10 +202,13 @@ public:
      * 
      * @return The output on the z-axis in raw ADC counts.
      */
-    int getAccelZ(void);
+    float getAccelZ(void);
 
    
 private:
+
+   float scaling_factor;
+   int current_range;
 
     I2C i2c_;
 

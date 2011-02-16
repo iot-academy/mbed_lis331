@@ -19,6 +19,11 @@
 #include "LIS331.h"
 
 LIS331::LIS331(PinName sda, PinName scl) : i2c_(sda, scl) {
+    // set default scaling factor
+    scaling_factor = 4096.0;
+    
+    //set default range to zero.
+    current_range = 0;
 
     //400kHz, fast mode.
     i2c_.frequency(400000);
@@ -33,6 +38,19 @@ LIS331::LIS331(PinName sda, PinName scl) : i2c_(sda, scl) {
     //CTRL_REG_1 [00111111] / [0x3F] to power up, set output rate to 1000Hz, and enable all 3 axis.
     tx[1] = 0x3F;
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    
+    
+    
+    //set default scale of 4g's
+    scaling_factor = 8192.0;
+    current_range = 4;
+    
+    tx[0] = CTRL_REG_4;
+    tx[1] = 0x10;
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    
+    
     
 }
 
@@ -94,6 +112,8 @@ char LIS331::getInterruptConfiguration(void){
 
 
 void LIS331::setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
+    scaling_factor = 4096.0;
+    current_range = 8;
 
     char tx[2];
     tx[0] = CTRL_REG_4;
@@ -104,7 +124,9 @@ void LIS331::setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4
 }
 
 void LIS331::setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4!
-
+    scaling_factor = 8192.0;
+    current_range = 4;
+    
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x10;
@@ -115,7 +137,9 @@ void LIS331::setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4
     
 
 void LIS331::setFullScaleRange2g(void){  // Does not preserve rest of CTRL_REG_4!
-
+    scaling_factor = 16384.0;
+    current_range = 2;
+    
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x00;
@@ -150,7 +174,7 @@ int LIS331::getAccelX(void){
     
     int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
-    return output;
+    return output/scaling_factor;
 
 }
 
@@ -165,11 +189,11 @@ int LIS331::getAccelY(void){
     
     int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
-    return output;
+    return output/scaling_factor;
 
 }
 
-int LIS331::getAccelZ(void){
+float LIS331::getAccelZ(void){
 
     char tx = ACCEL_ZOUT_H_REG;
     char rx[2];
@@ -180,5 +204,5 @@ int LIS331::getAccelZ(void){
     
     int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
-    return output;
+    return output/scaling_factor;
 }
