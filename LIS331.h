@@ -166,9 +166,22 @@ public:
      */
      
      
-     
+    /**
+     * Set the Full Scale Range to +/- 8g's.
+     *
+     */     
     void setFullScaleRange8g(void);
+
+    /**
+     * Set the Full Scale Range to +/- 4g's.
+     *
+     */     
     void setFullScaleRange4g(void);
+
+    /**
+     * Set the Full Scale Range to +/- 2g's.
+     *
+     */     
     void setFullScaleRange2g(void);
      
             
@@ -178,29 +191,23 @@ public:
 
 
     /**
-     * Get the output for the x-axis gyroscope.
+     * Get the output for the x-axis accelerometer.
      *
-     * Typical sensitivity is 14.375 LSB/(degrees/sec).
-     *
-     * @return The output on the x-axis in raw ADC counts.
+     * @return The output on the x-axis in engineering units (g's).
      */
     int getAccelX(void);
 
     /**
-     * Get the output for the y-axis gyroscope.
+     * Get the output for the y-axis accelerometer.
      *
-     * Typical sensitivity is 14.375 LSB/(degrees/sec).
-     *
-     * @return The output on the y-axis in raw ADC counts.
+     * @return The output on the y-axis in engineering units (g's).
      */
     int getAccelY(void);
 
     /**
-     * Get the output on the z-axis gyroscope.
-     *
-     * Typical sensitivity is 14.375 LSB/(degrees/sec).
+     * Get the output on the z-axis accelerometer.
      * 
-     * @return The output on the z-axis in raw ADC counts.
+     * @return The output on the z-axis in engineering units (g's).
      */
     float getAccelZ(void);
 
