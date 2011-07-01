@@ -163,7 +163,7 @@ char LIS331::getAccelStatus(void){
 
 
 
-int LIS331::getAccelX(void){
+float LIS331::getAccelX(void){
 
     char tx = ACCEL_XOUT_H_REG;
     char rx[2];
@@ -178,7 +178,7 @@ int LIS331::getAccelX(void){
 
 }
 
-int LIS331::getAccelY(void){
+float LIS331::getAccelY(void){
 
     char tx = ACCEL_YOUT_H_REG;
     char rx[2];

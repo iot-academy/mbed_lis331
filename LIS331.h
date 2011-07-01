@@ -195,14 +195,14 @@ public:
      *
      * @return The output on the x-axis in engineering units (g's).
      */
-    int getAccelX(void);
+    float getAccelX(void);
 
     /**
      * Get the output for the y-axis accelerometer.
      *
      * @return The output on the y-axis in engineering units (g's).
      */
-    int getAccelY(void);
+    float getAccelY(void);
 
     /**
      * Get the output on the z-axis accelerometer.
