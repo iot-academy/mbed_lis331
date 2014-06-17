@@ -111,40 +111,75 @@ char LIS331::getInterruptConfiguration(void){
 }
 
 
-void LIS331::setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
+char LIS331::setFullScaleRange8g(void){ 
+    // Set our scaling factor and G range variables
     scaling_factor = 4096.0;
     current_range = 8;
-    char tx[2];
-    tx[0] = CTRL_REG_4;
-    tx[1] = 0x30;
     
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    // Setup our tx and rx arrays
+    char tx1;
+    char tx2[2];
+    char rx;
     
+    // Need to read current register value so we can preserve it
+    // Set our device register address to Control Register 4 and read its contents
+    tx1 = CTRL_REG_4;
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx1, 1);
+    i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, &rx, 1);
+    
+    tx2[0] = CTRL_REG_4;
+    rx |= 1 << 5;    // set 6th bit
+    rx |= 1 << 4;    // set 5th bit
+    tx2[1] = rx;  
+    
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 2);
+    return rx;
 }
 
-void LIS331::setFullScaleRange4g(void){  // Does not preserve rest of CTRL_REG_4!
+char LIS331::setFullScaleRange4g(void){  
     scaling_factor = 8192.0;
     current_range = 4;
     
-    char tx[2];
-    tx[0] = CTRL_REG_4;
-    tx[1] = 0x10;
-        
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    char tx1; 
+    char tx2[2];
+    char rx;
     
+    // Need to read current register value so we can preserve it
+    // Set our device register address to Control Register 4 and read its contents
+    tx1 = CTRL_REG_4;
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx1, 1);
+    i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, &rx, 1);
+    tx2[0] = CTRL_REG_4;
+    rx &= ~(1 << 5);    // Clear 6th bit
+    rx |= 1 << 4;       // set 5th bit
+    tx2[1] = rx;  
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 2);
+    return rx;
 }
     
 
-void LIS331::setFullScaleRange2g(void){  // Does not preserve rest of CTRL_REG_4!
+char LIS331::setFullScaleRange2g(void){  
     scaling_factor = 16384.0;
     current_range = 2;
     
-    char tx[2];
-    tx[0] = CTRL_REG_4;
-    tx[1] = 0x00;
-        
-    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
+    char tx1;
+    char tx2[2];
+    char rx;
     
+    // Need to read current register value so we can preserve it
+    // Set our device register address to Control Register 4 and read its contents
+    tx1 = CTRL_REG_4;
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx1, 1);
+    i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, &rx, 1);
+    
+    tx2[0] = CTRL_REG_4;
+    rx &= ~(1 << 5);    // Clear 6th bit
+    rx &= ~(1 << 4);    // clear 5th bit
+    tx2[1] = rx;  
+        
+    i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx2, 2);
+    return rx;
 }
 
 
@@ -171,7 +206,7 @@ float LIS331::getAccelX(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
+    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
 
     return output/scaling_factor;
 
@@ -186,13 +221,13 @@ float LIS331::getAccelY(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
+    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
 
     return output/scaling_factor;
 
 }
 
-int LIS331::getAccelZ(void){
+float LIS331::getAccelZ(void){
 
     char tx = ACCEL_ZOUT_L_REG | 0x80;
     char rx[2];
@@ -201,7 +236,7 @@ int LIS331::getAccelZ(void){
     
     i2c_.read((LIS331_I2C_ADDRESS << 1) | 0x01, rx, 2);
     
-    int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
+    int16_t output = ((int) rx[1] << 8) | ((int) rx[0]);
 
     return output/scaling_factor;
 

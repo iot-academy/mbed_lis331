@@ -36,8 +36,6 @@
 #define ACCEL_ZOUT_H_REG 0x2D
 #define ACCEL_ZOUT_L_REG 0x2C
 
-
-
 #define CTRL_REG_1      0x20
 #define CTRL_REG_2      0x21
 #define CTRL_REG_3      0x22
@@ -168,21 +166,21 @@ public:
   
     /**
      * Set the Full Scale Range to +/- 8g's.
-     *
+     * Returns the value written to CTRL_REG_4
      */     
-    void setFullScaleRange8g(void);
+    char setFullScaleRange8g(void);
 
     /**
      * Set the Full Scale Range to +/- 4g's.
-     *
+     * Returns the value written to CTRL_REG_4
      */     
-    void setFullScaleRange4g(void);
+    char setFullScaleRange4g(void);
 
     /**
      * Set the Full Scale Range to +/- 2g's.
-     *
+     * Returns the value written to CTRL_REG_4
      */     
-    void setFullScaleRange2g(void);
+    char setFullScaleRange2g(void);
      
             
     char getAccelStatus(void);
@@ -209,7 +207,7 @@ public:
      * 
      * @return The output on the z-axis in engineering units (g's).
      */
-    int getAccelZ(void);
+    float getAccelZ(void);
 
    
 private:
