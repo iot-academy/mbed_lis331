@@ -165,7 +165,7 @@ public:
      *
      */
      
-     
+  
     /**
      * Set the Full Scale Range to +/- 8g's.
      *
@@ -209,7 +209,7 @@ public:
      * 
      * @return The output on the z-axis in engineering units (g's).
      */
-    float getAccelZ(void);
+    int getAccelZ(void);
 
    
 private:

@@ -114,11 +114,10 @@ char LIS331::getInterruptConfiguration(void){
 void LIS331::setFullScaleRange8g(void){  // Does not preserve rest of CTRL_REG_4!
     scaling_factor = 4096.0;
     current_range = 8;
-
     char tx[2];
     tx[0] = CTRL_REG_4;
     tx[1] = 0x30;
-        
+    
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, tx, 2);
     
 }
@@ -165,7 +164,7 @@ char LIS331::getAccelStatus(void){
 
 float LIS331::getAccelX(void){
 
-    char tx = ACCEL_XOUT_H_REG;
+    char tx = ACCEL_XOUT_L_REG | 0x80;
     char rx[2];
     
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 1);
@@ -180,7 +179,7 @@ float LIS331::getAccelX(void){
 
 float LIS331::getAccelY(void){
 
-    char tx = ACCEL_YOUT_H_REG;
+    char tx = ACCEL_YOUT_L_REG | 0x80;
     char rx[2];
     
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 1);
@@ -193,9 +192,9 @@ float LIS331::getAccelY(void){
 
 }
 
-float LIS331::getAccelZ(void){
+int LIS331::getAccelZ(void){
 
-    char tx = ACCEL_ZOUT_H_REG;
+    char tx = ACCEL_ZOUT_L_REG | 0x80;
     char rx[2];
     
     i2c_.write((LIS331_I2C_ADDRESS << 1) & 0xFE, &tx, 1);
@@ -205,4 +204,5 @@ float LIS331::getAccelZ(void){
     int16_t output = ((int) rx[0] << 8) | ((int) rx[1]);
 
     return output/scaling_factor;
+
 }
